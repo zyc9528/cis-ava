@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房地产开发财务测算报告</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        :root {
+            /* 主题色 */
+            --primary-100: #DDF1FF;
+            --primary-200: #B5DCFF;
+            --primary-300: #89C5FF;
+            --primary-400: #5AADFF;
+            --primary-500: #2196F3;
+            --primary-600: #0B79D2;
+            --primary-700: #0063B1;
+            --primary-800: #004E8F;
+            --primary-900: #003F76;
+            
+            /* 辅助色 */
+            --secondary-100: #E8FFF0;
+            --secondary-200: #C9FFE1;
+            --secondary-300: #98F5C3;
+            --secondary-400: #68D39B;
+            --secondary-500: #4CAF50;
+            --secondary-600: #369B3A;
+            --secondary-700: #257D29;
+            --secondary-800: #195E1D;
+            --secondary-900: #0A4410;
+            
+            /* 中性色 */
+            --neutral-100: #F9FAFE;
+            --neutral-200: #EDF0F7;
+            --neutral-300: #DCE0EA;
+            --neutral-400: #C2C9D6;
+            --neutral-500: #A1A9B8;
+            --neutral-600: #646C7C;
+            --neutral-700: #404655;
+            --neutral-800: #2A2E3A;
+            --neutral-900: #191B24;
+            
+            /* 信息色 */
+            --info: #03A9F4;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #F44336;
+            
+            /* 玻璃态特效 */
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --glass-blur: blur(10px);
+            
+            /* 字体 */
+            --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--neutral-800);
+            background-color: #121212;
+            background-image: 
+                radial-gradient(circle at 25% 10%, rgba(33, 150, 243, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(76, 175, 80, 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            background: rgba(18, 18, 18, 0.75);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 0.75rem 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+        }
+        
+        .nav-logo i {
+            margin-right: 0.5rem;
+            color: var(--primary-500);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding: 0.25rem 0;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-400);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-500);
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* 头部 */
+        .header {
+            padding-top: 6rem;
+            padding-bottom: 4rem;
+            text-align: center;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--neutral-400);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 主要内容区块 */
+        .section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 0.75rem;
+            color: var(--primary-500);
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 表格样式 */
+        .styled-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .styled-table th, 
+        .styled-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .styled-table th {
+            background-color: rgba(33, 150, 243, 0.15);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .styled-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .styled-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 网格布局 */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        /* 图表容器 */
+        .chart-container {
+            height: 300px;
+            position: relative;
+            margin-top: 1rem;
+        }
+        
+        /* 指标卡片 */
+        .metric-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-400);
+            margin: 0.5rem 0;
+        }
+        
+        .metric-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .metric-subtitle {
+            font-size: 0.875rem;
+            color: var(--neutral-400);
+            margin-top: 0.25rem;
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-500);
+            border-radius: 3px;
+        }
+        
+        /* 标签 */
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .badge-primary {
+            background-color: var(--primary-600);
+            color: white;
+        }
+        
+        .badge-warning {
+            background-color: var(--warning);
+            color: var(--neutral-900);
+        }
+        
+        .badge-info {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        /* 风险项目 */
+        .risk-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .risk-item {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .risk-header {
+            padding: 0.75rem 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .risk-level-high {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #FF8A80;
+        }
+        
+        .risk-level-medium {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #FFE082;
+        }
+        
+        .risk-content {
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .risk-action {
+            margin-top: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-400);
+        }
+        
+        /* 结论卡片 */
+        .conclusion-card {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .conclusion-header {
+            background-color: rgba(255, 193, 7, 0.15);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .conclusion-header h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .conclusion-content {
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* 建议容器 */
+        .recommendation-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .recommendation {
+            display: flex;
+            padding: 1.25rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 1rem;
+        }
+        
+        .recommendation-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--success);
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .recommendation-icon.warning {
+            background-color: var(--warning);
+            color: var(--neutral-900);
+        }
+        
+        .recommendation-icon.info {
+            background-color: var(--info);
+        }
+        
+        .recommendation-text h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .recommendation-text ul {
+            margin-left: 1.25rem;
+            color: var(--neutral-300);
+            font-size: 0.9rem;
+        }
+        
+        /* 决策容器 */
+        .decision-container {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .decision-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .decision-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .decision-pass {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: rgba(18, 18, 18, 0.9);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .footer-logo i {
+            margin-right: 0.5rem;
+            color: var(--primary-500);
+        }
+        
+        .footer-copyright {
+            color: var(--neutral-500);
+            font-size: 0.875rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .grid-cols-2, 
+            .grid-cols-3,
+            .recommendation-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-logo">
+                <i class="fas fa-building"></i>
+                <span>地块财务测算</span>
+            </a>
+            <div class="nav-links">
+                <a href="#overview" class="nav-link">项目概况</a>
+                <a href="#basic" class="nav-link">基础数据</a>
+                <a href="#sales" class="nav-link">可售货值</a>
+                <a href="#financial" class="nav-link">现金流模型</a>
+                <a href="#sensitivity" class="nav-link">敏感性分析</a>
+                <a href="#risk" class="nav-link">风险警示</a>
+                <a href="#report" class="nav-link">可行性研究</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container">
+            <h1 class="title">乌鲁木齐市天山区地块<br>房地产开发财务测算报告</h1>
+            <p class="subtitle">立项可行性评估 · 财务投资指标分析 · 风险敏感性测算</p>
+        </div>
+    </header>
+
+    <!-- 主要内容容器 -->
+    <main class="container">
+        <!-- 项目概况部分 -->
+        <section id="overview" class="section fade-in">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i>项目概况</h2>
+            
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4">乌鲁木齐市天山区地块项目基本情况</h3>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-white">土地属性</h4>
+                        <div style="overflow-x: auto;">
+                            <table class="styled-table">
+                                <tbody>
+                                    <tr>
+                                        <td>土地位置</td>
+                                        <td>乌鲁木齐市天山区</td>
+                                    </tr>
+                                    <tr>
+                                        <td>土地面积</td>
+                                        <td>40,256㎡</td>
+                                    </tr>
+                                    <tr>
+                                        <td>容积率</td>
+                                        <td>2.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>建筑密度</td>
+                                        <td>35%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>绿地率</td>
+                                        <td>30%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>土地用途</td>
+                                        <td>住宅、商业</td>
+                                    </tr>
+                                    <tr>
+                                        <td>出让年限</td>
+                                        <td>住宅70年，商业40年</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-white">开发周期</h4>
+                        <div style="overflow-x: auto;">
+                            <table class="styled-table">
+                                <tbody>
+                                    <tr>
+                                        <td>拿地时间</td>
+                                        <td>2023年8月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>开工时间</td>
+                                        <td>2023年10月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>建设周期</td>
+                                        <td>18个月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>开盘时间</td>
+                                        <td>2024年4月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>销售周期</td>
+                                        <td>12个月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>交房时间</td>
+                                        <td>2025年4月</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold mb-3 text-white">规划指标</h4>
+                    <div class="badge-container mb-4">
+                        <span class="badge badge-primary">总建筑面积: 80,512㎡</span>
+                        <span class="badge badge-info">住宅面积: 64,410㎡</span>
+                        <span class="badge badge-warning">商业面积: 8,051㎡</span>
+                        <span class="badge badge-danger">地下面积: 8,051㎡</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-medium mb-2 text-white">开发进度</h5>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%"></div>
+                            </div>
+                            <div class="text-sm mt-1 text-neutral-400">已完成35%</div>
+                        </div>
+                        <div>
+                            <h5 class="font-medium mb-2 text-white">销售进度</h5>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 20%"></div>
+                            </div>
+                            <div class="text-sm mt-1 text-neutral-400">已完成20%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 基础数据测算 -->
+        <section id="basic" class="section fade-in">
+            <h2 class="section-title"><i class="fas fa-calculator"></i>基础数据测算</h2>
+            
+            <!-- 土地成本 -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-map-marked-alt" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    土地成本
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>数额（万元）</th>
+                                <th>计算依据</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>土地出让金</td>
+                                <td>6,340.0</td>
+                                <td>40,256㎡ × 1,575元/㎡</td>
+                            </tr>
+                            <tr>
+                                <td>契税</td>
+                                <td>228.9</td>
+                                <td>土地出让金 × 3.6%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>土地总成本</strong></td>
+                                <td><strong>6,568.9</strong></td>
+                                <td>土地出让金 + 契税</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 建安成本 -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-hard-hat" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    建安成本
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>面积（㎡）</th>
+                                <th>单价（元/㎡）</th>
+                                <th>金额（万元）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>住宅部分</td>
+                                <td>64,410</td>
+                                <td>2,400</td>
+                                <td>5,153.0</td>
+                            </tr>
+                            <tr>
+                                <td>商业部分</td>
+                                <td>8,051</td>
+                                <td>2,600</td>
+                                <td>731.0</td>
+                            </tr>
+                            <tr>
+                                <td>地下室</td>
+                                <td>8,051</td>
+                                <td>1,800</td>
+                                <td>855.0</td>
+                            </tr>
+                            <tr>
+                                <td><strong>建安总成本</strong></td>
+                                <td>80,512</td>
+                                <td>—</td>
+                                <td><strong>6,739.0</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 其他费用 -->
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-coins" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    其他费用
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>比例</th>
+                                <th>基数</th>
+                                <th>金额（万元）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>管理费用</td>
+                                <td>3.0%</td>
+                                <td>可售货值</td>
+                                <td>567.6</td>
+                            </tr>
+                            <tr>
+                                <td>营销费用</td>
+                                <td>2.0%</td>
+                                <td>可售货值</td>
+                                <td>378.4</td>
+                            </tr>
+                            <tr>
+                                <td>税金</td>
+                                <td>8.0%</td>
+                                <td>可售货值</td>
+                                <td>1,513.5</td>
+                            </tr>
+                            <tr>
+                                <td><strong>其他费用总计</strong></td>
+                                <td>13.0%</td>
+                                <td>—</td>
+                                <td><strong>2,459.5</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 15px; color: var(--neutral-300); font-size: 0.9rem;">
+                    <p>* 其他费用占可售货值的13.0%，按照销售进度分期计入成本</p>
+                    <p>* 可售货值详见下一节计算</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 可售货值测算 -->
+        <section id="sales" class="section fade-in">
+            <h2 class="section-title"><i class="fas fa-tags"></i>可售货值测算</h2>
+            
+            <!-- 销售收入 -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-dollar-sign" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    销售收入
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>面积（㎡）</th>
+                                <th>均价（元/㎡）</th>
+                                <th>总价（万元）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>住宅</td>
+                                <td>64,410</td>
+                                <td>10,000</td>
+                                <td>13,824.0</td>
+                            </tr>
+                            <tr>
+                                <td>商铺</td>
+                                <td>8,051</td>
+                                <td>18,000</td>
+                                <td>3,925.0</td>
+                            </tr>
+                            <tr>
+                                <td>车位</td>
+                                <td>390个</td>
+                                <td>30,000元/个</td>
+                                <td>1,170.0</td>
+                            </tr>
+                            <tr>
+                                <td><strong>销售收入总计</strong></td>
+                                <td>—</td>
+                                <td>—</td>
+                                <td><strong>18,919.0</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 可售货值组成 -->
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4">可售货值组成</h3>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="chart-container">
+                        <canvas id="sales-chart"></canvas>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-3 text-white">销售目标</h4>
+                        <ul style="list-style-type: none; margin-left: 0; color: var(--neutral-300);">
+                            <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span style="width: 12px; height: 12px; background-color: var(--primary-500); border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                                <span>住宅均价目标：10,000元/㎡，总计13,824.0万元，占比73%</span>
+                            </li>
+                            <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span style="width: 12px; height: 12px; background-color: var(--secondary-500); border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                                <span>商铺均价目标：18,000元/㎡，总计3,925.0万元，占比21%</span>
+                            </li>
+                            <li style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span style="width: 12px; height: 12px; background-color: var(--info); border-radius: 50%; display: inline-block; margin-right: 10px;"></span>
+                                <span>车位均价目标：3万元/个，总计1,170.0万元，占比6%</span>
+                            </li>
+                        </ul>
+                        <h4 class="text-lg font-semibold mt-4 mb-3 text-white">销售分析</h4>
+                        <p style="color: var(--neutral-300);">
+                            项目总可售货值18,919.0万元，楼面均价为9,352元/㎡（不含车位）。住宅是主要收入来源，占比73%，商铺部分将在项目后期销售，其均价对项目盈利影响较大。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 动态现金流模型 -->
+        <section id="financial" class="section fade-in">
+            <h2 class="section-title"><i class="fas fa-chart-line"></i>动态现金流模型</h2>
+            
+            <!-- 成本支出节奏 -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-money-bill-wave" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    成本支出节奏
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>月份</th>
+                                <th>土地成本</th>
+                                <th>建安成本</th>
+                                <th>其他费用</th>
+                                <th>累计支出</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0</td>
+                                <td>6,568.9</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>6,568.9</td>
+                            </tr>
+                            <tr>
+                                <td>1-6</td>
+                                <td>-</td>
+                                <td>3,369.5</td>
+                                <td>-</td>
+                                <td>9,938.4</td>
+                            </tr>
+                            <tr>
+                                <td>7-12</td>
+                                <td>-</td>
+                                <td>3,369.5</td>
+                                <td>1,229.8</td>
+                                <td>14,537.7</td>
+                            </tr>
+                            <tr>
+                                <td>13-18</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>1,229.7</td>
+                                <td>15,767.4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 销售回款节奏 -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-hand-holding-usd" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    销售回款节奏
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>月份</th>
+                                <th>住宅回款</th>
+                                <th>商铺回款</th>
+                                <th>车位回款</th>
+                                <th>累计回款</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-18</td>
+                                <td>11,059.2</td>
+                                <td>3,925.0</td>
+                                <td>1,170.0</td>
+                                <td>16,154.2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 现金流视图 -->
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 class="text-xl font-semibold mb-4">项目现金流视图</h3>
+                <div class="chart-container">
+                    <canvas id="cashflow-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 财务指标 -->
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-chart-pie" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    财务指标
+                </h3>
+                <div class="grid grid-cols-3">
+                    <div class="metric-card">
+                        <i class="fas fa-percent" style="font-size: 1.5rem; color: var(--primary-500);"></i>
+                        <div class="metric-value">18.7%</div>
+                        <div class="metric-title">IRR</div>
+                        <div class="metric-subtitle">达标要求: ≥15%</div>
+                        <div style="margin-top: 15px;">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <i class="fas fa-dollar-sign" style="font-size: 1.5rem; color: var(--primary-500);"></i>
+                        <div class="metric-value">2,151.6</div>
+                        <div class="metric-title">税后净利润 (万元)</div>
+                        <div class="metric-subtitle">利润率: 11.4%</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <i class="fas fa-clock" style="font-size: 1.5rem; color: var(--primary-500);"></i>
+                        <div class="metric-value">22</div>
+                        <div class="metric-title">动态回收期 (月)</div>
+                        <div class="metric-subtitle">含建设期18个月</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 敏感性分析 -->
+        <section id="sensitivity" class="section fade-in">
+            <h2 class="section-title"><i class="fas fa-balance-scale"></i>敏感性分析</h2>
+            
+            <div class="card" style="margin-bottom: 30px;">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-chart-bar" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    不同情景分析
+                </h3>
+                <div class="badge-container mb-6">
+                    <span class="badge badge-primary">基准情景</span>
+                    <span class="badge badge-warning">住宅售价-5%</span>
+                    <span class="badge badge-info">去化周期延长</span>
+                    <span class="badge badge-danger">建安成本+10%</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="sensitivity-chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-percent" style="color: var(--primary-600); margin-right: 10px;"></i>
+                        IRR敏感性 (%)
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>基准值</th>
+                                    <th>变化值</th>
+                                    <th>变化率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>基准情景</td>
+                                    <td>18.7%</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>住宅售价-5%</td>
+                                    <td>14.2%</td>
+                                    <td>-4.5%</td>
+                                    <td>-24.1%</td>
+                                </tr>
+                                <tr>
+                                    <td>去化周期延长</td>
+                                    <td>16.1%</td>
+                                    <td>-2.6%</td>
+                                    <td>-13.9%</td>
+                                </tr>
+                                <tr>
+                                    <td>建安成本+10%</td>
+                                    <td>15.8%</td>
+                                    <td>-2.9%</td>
+                                    <td>-15.5%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-dollar-sign" style="color: var(--primary-600); margin-right: 10px;"></i>
+                        净利润敏感性 (万元)
+                    </h3>
+                    <div style="overflow-x: auto;">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>基准值</th>
+                                    <th>变化值</th>
+                                    <th>变化率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>基准情景</td>
+                                    <td>2,151.6</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>住宅售价-5%</td>
+                                    <td>1,487.3</td>
+                                    <td>-664.3</td>
+                                    <td>-30.9%</td>
+                                </tr>
+                                <tr>
+                                    <td>去化周期延长</td>
+                                    <td>1,802.4</td>
+                                    <td>-349.2</td>
+                                    <td>-16.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>建安成本+10%</td>
+                                    <td>1,653.9</td>
+                                    <td>-497.7</td>
+                                    <td>-23.1%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 风险警示 -->
+        <section id="risk" class="section fade-in">
+            <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i>风险警示</h2>
+            
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-exclamation-circle" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    风险识别与防范
+                </h3>
+                <div class="risk-container">
+                    <div class="risk-item">
+                        <div class="risk-header risk-level-high">
+                            <span>高风险: 售价波动</span>
+                        </div>
+                        <div class="risk-content">
+                            <p>住宅售价下降5%情况下，项目IRR下降至14.2%，净利润减少664.3万元，降幅达30.9%，敏感度最高</p>
+                            <p class="risk-action">防范措施: 加强市场调研，提高产品差异化，降低价格敏感性</p>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-item">
+                        <div class="risk-header risk-level-medium">
+                            <span>中等风险: 建安成本上涨</span>
+                        </div>
+                        <div class="risk-content">
+                            <p>建安成本上涨10%，项目IRR降至15.8%，仍满足15%基本要求，但净利润减少497.7万元，降幅23.1%</p>
+                            <p class="risk-action">防范措施: 提前锁定主材价格，优化施工方案，控制成本变动</p>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-item">
+                        <div class="risk-header risk-level-medium">
+                            <span>中等风险: 去化速度放缓</span>
+                        </div>
+                        <div class="risk-content">
+                            <p>去化周期延长情况下，IRR下降至16.1%，净利润减少349.2万元，降幅16.2%，对项目盈利能力影响明显</p>
+                            <p class="risk-action">防范措施: 优化营销策略，分期推盘，实施灵活的价格策略</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-6">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-exclamation-triangle" style="color: var(--primary-600); margin-right: 10px;"></i>
+                    资金缺口分析
+                </h3>
+                <div style="overflow-x: auto;">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>情景</th>
+                                <th>资金峰值缺口(万元)</th>
+                                <th>缺口期间</th>
+                                <th>融资建议</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>基准情景</td>
+                                <td>9,938.4</td>
+                                <td>第1-6个月</td>
+                                <td>银行开发贷款</td>
+                            </tr>
+                            <tr>
+                                <td>住宅售价-5%</td>
+                                <td>11,138.4</td>
+                                <td>第1-12个月</td>
+                                <td>开发贷款+信托融资</td>
+                            </tr>
+                            <tr>
+                                <td>去化周期延长</td>
+                                <td>10,738.4</td>
+                                <td>第1-12个月</td>
+                                <td>开发贷款+股东借款</td>
+                            </tr>
+                            <tr>
+                                <td>建安成本+10%</td>
+                                <td>11,438.4</td>
+                                <td>第1-12个月</td>
+                                <td>开发贷款+信托融资</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-building"></i>
+                    <span>地块财务测算</span>
+                </div>
+                <div class="footer-copyright">
+                    © 2023 财务测算系统 版权所有
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 渐入动画
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // 初始化销售收入图表
+            const ctx = document.getElementById('sales-chart');
+            if (ctx) {
+                const salesChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['住宅', '商铺', '车位'],
+                        datasets: [{
+                            data: [13824, 3925, 1170],
+                            backgroundColor: [
+                                'var(--primary-500)',
+                                'var(--secondary-500)',
+                                'var(--info)'
+                            ],
+                            borderColor: 'white',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        family: "'Noto Sans SC', sans-serif",
+                                        size: 14
+                                    },
+                                    generateLabels: function(chart) {
+                                        const data = chart.data;
+                                        if (data.labels.length && data.datasets.length) {
+                                            return data.labels.map(function(label, i) {
+                                                const value = data.datasets[0].data[i];
+                                                const percentage = ((value / 18919) * 100).toFixed(1) + '%';
+                                                return {
+                                                    text: `${label}: ${value}万元 (${percentage})`,
+                                                    fillStyle: data.datasets[0].backgroundColor[i],
+                                                    strokeStyle: data.datasets[0].borderColor,
+                                                    lineWidth: data.datasets[0].borderWidth,
+                                                    hidden: false,
+                                                    index: i
+                                                };
+                                            });
+                                        }
+                                        return [];
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const value = context.raw;
+                                        const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((value / total) * 100).toFixed(1) + '%';
+                                        return `${context.label}: ${value}万元 (${percentage})`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 现金流图表
+            const cashflowCtx = document.getElementById('cashflow-chart');
+            if (cashflowCtx) {
+                const cashflowChart = new Chart(cashflowCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['0', '1-6', '7-12', '13-18'],
+                        datasets: [
+                            {
+                                label: '累计支出',
+                                data: [6568.9, 9938.4, 14537.7, 15767.4],
+                                backgroundColor: 'rgba(244, 67, 54, 0.7)',
+                                borderColor: 'rgb(244, 67, 54)',
+                                borderWidth: 1,
+                                order: 2
+                            },
+                            {
+                                label: '累计回款',
+                                data: [0, 0, 8077.1, 16154.2],
+                                backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                                borderColor: 'rgb(76, 175, 80)',
+                                borderWidth: 1,
+                                order: 1
+                            },
+                            {
+                                label: '净现金流',
+                                data: [-6568.9, -9938.4, -6460.6, 386.8],
+                                type: 'line',
+                                borderColor: 'var(--primary-500)',
+                                borderWidth: 3,
+                                pointBackgroundColor: 'var(--primary-500)',
+                                fill: false,
+                                tension: 0.1,
+                                order: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '月份',
+                                    color: 'white'
+                                },
+                                ticks: {
+                                    color: 'white'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: '金额（万元）',
+                                    color: 'white'
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        family: "'Noto Sans SC', sans-serif"
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 1 }).format(context.parsed.y) + '万元';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 敏感性分析图表
+            const sensitivityCtx = document.getElementById('sensitivity-chart');
+            if (sensitivityCtx) {
+                const sensitivityChart = new Chart(sensitivityCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['基准情景', '住宅售价-5%', '去化周期延长', '建安成本+10%'],
+                        datasets: [
+                            {
+                                label: 'IRR (%)',
+                                data: [18.7, 14.2, 16.1, 15.8],
+                                backgroundColor: 'rgba(33, 150, 243, 0.7)',
+                                borderColor: 'rgb(33, 150, 243)',
+                                borderWidth: 1,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: '净利润 (万元)',
+                                data: [2151.6, 1487.3, 1802.4, 1653.9],
+                                backgroundColor: 'rgba(76, 175, 80, 0.7)',
+                                borderColor: 'rgb(76, 175, 80)',
+                                borderWidth: 1,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: 'white'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'IRR (%)',
+                                    color: 'white'
+                                },
+                                ticks: {
+                                    color: 'white'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                min: 0,
+                                max: 25
+                            },
+                            y1: {
+                                type: 'linear',
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: '净利润 (万元)',
+                                    color: 'white'
+                                },
+                                ticks: {
+                                    color: 'white',
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                },
+                                min: 0,
+                                max: 2500
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        family: "'Noto Sans SC', sans-serif"
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            if (context.dataset.yAxisID === 'y') {
+                                                label += context.parsed.y + '%';
+                                            } else {
+                                                label += new Intl.NumberFormat('zh-CN', { maximumFractionDigits: 1 }).format(context.parsed.y) + '万元';
+                                            }
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
